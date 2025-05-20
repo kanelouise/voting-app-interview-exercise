@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_19_195129) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_19_212640) do
   create_table "candidates", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -18,19 +18,26 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_19_195129) do
   end
 
   create_table "voters", force: :cascade do |t|
-    t.string "email"
-    t.string "password"
+    t.string "email", null: false
+    t.string "password_digest"
     t.string "zip_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "write_in_candidate_id"
+    t.index ["email"], name: "index_voters_on_email", unique: true
+    t.index ["write_in_candidate_id"], name: "index_voters_on_write_in_candidate_id"
   end
 
   create_table "votes", force: :cascade do |t|
     t.integer "candidate_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "voter_id", null: false
     t.index ["candidate_id"], name: "index_votes_on_candidate_id"
+    t.index ["voter_id"], name: "index_votes_on_voter_id"
   end
 
+  add_foreign_key "voters", "candidates", column: "write_in_candidate_id"
   add_foreign_key "votes", "candidates"
+  add_foreign_key "votes", "voters"
 end

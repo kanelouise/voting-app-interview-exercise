@@ -2,5 +2,5 @@ class Vote < ApplicationRecord
   belongs_to :voter
   belongs_to :candidate
 
-  validates :voter_id, uniqueness: true
+  validates :voter_id, uniqueness: { message: "has already voted"}
 end
