@@ -18,16 +18,20 @@
     "@babel/preset-env": "^7.26.7",
     "@babel/preset-react": "^7.26.3",
     "@babel/runtime": "^7.26.7",
+    "@tailwindcss/cli": "^4.1.7",
     "@types/babel__core": "^7.20.5",
     "@types/webpack": "^5.28.5",
+    "autoprefixer": "^10.4.21",
     "babel-loader": "^8.4.1",
     "compression-webpack-plugin": "^9.2.0",
     "css-loader": "^7.1.2",
     "css-minimizer-webpack-plugin": "^7.0.0",
     "mini-css-extract-plugin": "^2.9.2",
+    "postcss": "^8.5.3",
     "react": "^18.3.1",
     "react_ujs": "^3.2.1",
     "react-dom": "^18.3.1",
+    "react-router-dom": "^7.6.0",
     "shakapacker": "8.1.0",
     "style-loader": "^4.0.0",
     "terser-webpack-plugin": "^5.3.11",
@@ -37,6 +41,7 @@
     "webpack-merge": "^5.10.0"
   },
   "devDependencies": {
+    "tailwindcss": "^4.1.7",
     "webpack-dev-server": "^4.15.2"
   }
 }
