@@ -8,21 +8,27 @@ function Login({ onLoginSuccess }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
+    const token = document.querySelector('meta[name="csrf-token"]')?.content;
+  
     const response = await fetch('/login', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': token, // 🔐 send the CSRF token
+      },
+      credentials: 'include', // 🔐 send cookies for session
       body: JSON.stringify({ email, password, zip_code: zipCode }),
     });
-
+  
     const data = await response.json();
-
+  
     if (response.ok) {
       onLoginSuccess?.(data.voter_id);
     } else {
       setError(data.error || 'Login failed');
     }
-  };
+  };  
 
   return (
     <div>
@@ -31,15 +37,30 @@ function Login({ onLoginSuccess }) {
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label><br />
-          <input value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>Password:</label><br />
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
         </div>
         <div>
           <label>Zip Code:</label><br />
-          <input value={zipCode} onChange={(e) => setZipCode(e.target.value)} required />
+          <input
+            type="text"
+            value={zipCode}
+            onChange={(e) => setZipCode(e.target.value)}
+            required
+          />
         </div>
         <button type="submit">Log In</button>
       </form>
@@ -48,3 +69,6 @@ function Login({ onLoginSuccess }) {
 }
 
 export default Login;
+
+
+

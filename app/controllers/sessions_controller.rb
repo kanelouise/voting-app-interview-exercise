@@ -1,16 +1,35 @@
 class SessionsController < ApplicationController
   def create
-    voter = Voter.find_by(email: params[:email].downcase)
+    Rails.logger.info "Params: #{params.inspect}"
 
-    if voter &&
-      voter.authenticate(params[:password]) &&
-      voter.zip_code == params[:zip_code]
+    email = params[:email]&.downcase
+    password = params[:password]
+    zip_code = params[:zip_code]
 
-      session[:voter_id] = voter.id
-      render json: { message: "Logged in", voter_id: voter.id }
+    voter = Voter.find_by(email: email)
+
+    if voter
+      if voter.authenticate(password) && voter.zip_code == zip_code
+        voter.authenticate(params[:password]) &&
+        voter.zip_code == params[:zip_code]
+
+        session[:voter_id] = voter.id
+        render json: { message: "Logged in", voter_id: voter.id }
+      else
+        #could make this more granular if we wanted to separate out which login param was the issue
+        render json: { error: "Invalid email, password, or zip code" }, status: :unauthorized
+      end
+
     else
-      #could make this more granular if we wanted to separate out which login param was the issue
-      render json: { error: "Invalid email, password, or zip code" }, status: :unauthorized
+      voter = Voter.new(email:email, password: password, zip_code: zip_code)
+
+      if voter.save
+        session[:voter_id] = voter.id
+        render json: { message: "New voter created", voter_id: voter_id }
+      else
+        #could make this more granular as well
+        render json: { error: "Invalid email, password, or zip code. Could not create account."}
+      end
     end
   end
 
