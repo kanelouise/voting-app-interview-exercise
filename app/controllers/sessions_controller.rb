@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
 
       if voter.save
         session[:voter_id] = voter.id
-        render json: { message: "New voter created", voter_id: voter_id }
+        render json: { message: "New voter created", voter_id: voter.id }
       else
         #could make this more granular as well
         render json: { error: "Invalid email, password, or zip code. Could not create account."}
