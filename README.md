@@ -1,10 +1,8 @@
-# Voting app for interview exercises
+# Voting App – ActBlue Interview Exercise
 
-This Rails and React application is the starting point for our Voting app
-interview exercise. You may not need all the various files included to complete
-the assignment, but they are here in case they help you move faster! Please
-modify anything you need to in order to meet the requirements and show us your
-own approach.
+This is a completed version of the Rails + React Voting App exercise. Users can register, log in, vote for a candidate (or write one in), and view a live results dashboard. The app is designed to be simple, functional, and clear.
+
+---
 
 ## Installation
 
@@ -17,81 +15,93 @@ Your development environment should have:
 * git
 * [SQLite3](https://www.sqlite.org/)
 
-Initialize git, install the application, and initialize the database:
+Initialize the app:
 
 ```sh
-# First, download the zip file, unzip the directory,
-# and navigate into the project directory. Then:
-git init
-git add .
-git commit -m "Initial files provided"
+# Clone this repo
+
+# Install backend dependencies
 bundle install
-bundle exec rake db:migrate
+bundle exec rake db:setup
 
 # Install JS packages, including React
 yarn install
 ```
 
+---
+
 ## Running the app
 
 ```sh
+# Start Rails server
 bundle exec rails server
-```
 
-Visit [http://localhost:3000](http://localhost:3000) in your browser
-
-For asset live reloading, run:
-```sh
+# For asset reloading run:
 ./bin/shakapacker-dev-server
 ```
 
-If the assets ever get out of sync, delete `/public/packs` and restart your
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
+
+If the assets ever get out of sync, delete \`/public/packs\` and restart your
+
 Rails server (and your shakapacker-dev-server if it was running).
 
-## Running tests
+---
 
-The included test suite uses Rspec and Capybara.
+## Project Overview
 
-Check out `spec/requests/` for example tests.
+* **Frontend:** React
+* **Backend:** Rails API
+* **Auth:** Session-based login with cookie storage
+* **Database:** SQLite (local dev)
 
-```sh
-# Run all tests
-bundle exec rspec
+### Features:
 
-# Run one test file
-bundle exec rspec <path/to/the/file.rb>
+* Login + session management
+* Candidate listing
+* Vote submission with write-in support, with confirmation or error message of vote result
+* Results Dashboard accessible without login
+* Redirect users to Results Dashboard after vote attempt (whether or not vote was successful)
 
-# Run one test case inside a test file
-bundle exec rspec <path/to/the/file.rb>:<line_number>
-```
+---
 
-## Accessing the Rails console
+## Thought Process
 
-```sh
-bundle exec rails console
-```
+This app prioritizes:
 
-## Debugging
+* **Clarity:** Clean, minimal UI and simple navigation
+* **Functionality:** Covers all core requirements and one bonus (write-in candidates)
+* **Maintainability:** Logical folder structure and reusable React components
 
-You can open up a debugging console by adding `binding.pry` anywhere in test or
-application code.
+The goal was to showcase strong Rails and React integration, clean controller design, and clear user flows rather than advanced styling or edge case testing.
 
-Example:
+---
 
-```rb
-def show
-  binding.pry
-  render json: { data: @my_object }, status: :ok
-end
-```
+## Important Structure + Files
 
-In this example, when the `show` method is hit during click testing or a test,
-a debugger will open up in the terminal, where you can inspect values:
+* Following the MVC structure
+* `app/models` - Backbone for CRUD (`Candidate`, `Vote`, `Voter` )
+* `app/controllers/api/` – Namespaced Rails API controllers (`candidate`, `vote`, `voter`, `results`, `sessions`)
+* `app/javascript/components/` – React components (`Login`, `Vote`, `ResultsDashboard`)
+* `routes.rb` – API and frontend routing configuration
 
-```rb
-@my_object.id
-@my_object.valid?
-```
+## Opportunities for further building
 
-Step to the next line with `next`. Resume regular code execution or tests with
-`continue`.
+**Testing**
+With more time, high-value tests would include:
+[] Authentication flow tests (login success/failure)
+[] Vote submission (with and without write-in)
+[] Candidate listing and results aggregation
+
+**Styling**
+[] Make it pretty with tailwindcss
+
+**Error handling**
+[] Rely on rails logic for more robust error handing especially when it comes to missing required fields
+
+**Candidate name normalizations**
+[] Implement fuzzy matching/name normalization logic to account for typos and accents
+
+**Deploying**
+[] Solve failed build without credentials to deploy app on Render or Railway
+
