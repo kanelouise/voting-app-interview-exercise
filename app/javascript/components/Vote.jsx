@@ -9,7 +9,7 @@ function Vote({ voterId }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/candidates')
+    fetch('/api/candidates')
       .then(res => res.json())
       .then(setCandidates)
       .catch(() => setError('Failed to load candidates'));
@@ -26,7 +26,7 @@ function Vote({ voterId }) {
       ? { write_in_candidate: writeIn }
       : { candidate_id: selectedCandidateId };
 
-    const response = await fetch('/votes', {
+    const response = await fetch('/api/votes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

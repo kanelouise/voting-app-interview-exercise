@@ -11,7 +11,7 @@ function Login({ onLoginSuccess }) {
   
     const token = document.querySelector('meta[name="csrf-token"]')?.content;
   
-    const response = await fetch('/login', {
+    const response = await fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

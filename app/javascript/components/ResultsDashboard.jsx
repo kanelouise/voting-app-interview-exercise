@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 function ResultsDashboard() {
-  console.log("Rendering ResultsDashboard"); // <- add this line
-
+  
   const [results, setResults] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/results', {
-      credentials: 'include', // Include cookies (optional)
+    fetch('/api/results', {
+      credentials: 'include',
     })
       .then((res) => {
         if (!res.ok) throw new Error("Network error");
