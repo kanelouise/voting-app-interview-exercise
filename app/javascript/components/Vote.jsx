@@ -42,6 +42,9 @@ function Vote({ voterId }) {
     } else {
       setError(data.error || 'Something went wrong');
     }
+    setTimeout(() => {
+      window.location.href = '/results'
+    }, 1500)
   };
 
   return (

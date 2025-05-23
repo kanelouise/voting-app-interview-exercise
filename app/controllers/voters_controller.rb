@@ -6,7 +6,8 @@ class VotersController < ApplicationController
       session[:voter_id] = voter.id
       render json: { message: "Voter registered", voter_id: voter.id }, status: :created
     else
-      render json: { errors: voter.errors.full_messages }, status: :unprocessable_entity
+      #could make this more specific
+      render json: { error: "Invalid email or zip code. Could not create account." }, status: :unprocessable_entity
     end
   end
 

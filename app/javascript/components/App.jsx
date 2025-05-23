@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './Login';
 import Vote from './Vote';
+import ResultsDashboard from './ResultsDashboard';
 
 function App() {
   const [voterId, setVoterId] = useState(null);
@@ -33,6 +34,9 @@ function App() {
             )
           }
         />
+
+        {/* Unprotected Results page: if not logged in, redirect to / */}
+        <Route path="/results" element={<ResultsDashboard />} />
       </Routes>
     </Router>
   );

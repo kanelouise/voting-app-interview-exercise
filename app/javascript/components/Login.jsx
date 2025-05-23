@@ -15,9 +15,9 @@ function Login({ onLoginSuccess }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-CSRF-Token': token, // 🔐 send the CSRF token
+        'X-CSRF-Token': token, // send the CSRF token
       },
-      credentials: 'include', // 🔐 send cookies for session
+      credentials: 'include', // send cookies for session
       body: JSON.stringify({ email, password, zip_code: zipCode }),
     });
   

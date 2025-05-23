@@ -16,8 +16,8 @@ class SessionsController < ApplicationController
         session[:voter_id] = voter.id
         render json: { message: "Logged in", voter_id: voter.id }
       else
-        #could make this more granular if we wanted to separate out which login param was the issue
-        render json: { error: "Invalid email, password, or zip code" }, status: :unauthorized
+        #could make this more specific if we wanted to separate out which login param was the issue
+        render json: { error: "Invalid email, password, or zip code. Could not log in." }, status: :unauthorized
       end
 
     else
@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
         session[:voter_id] = voter.id
         render json: { message: "New voter created", voter_id: voter.id }
       else
-        #could make this more granular as well
+        #could make this more specific as well
         render json: { error: "Invalid email, password, or zip code. Could not create account."}
       end
     end
