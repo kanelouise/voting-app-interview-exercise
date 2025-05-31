@@ -89,19 +89,19 @@ The goal was to showcase strong Rails and React integration, clean controller de
 
 **Testing**
 With more time, high-value tests would include:
-[ ] Authentication flow tests (login success/failure)
-[ ] Vote submission (with and without write-in)
-[ ] Candidate listing and results aggregation
+-   [ ]  Authentication flow tests (login success/failure)
+-   [ ]  Vote submission (with and without write-in)
+-   [ ]  Candidate listing and results aggregation
 
 **Styling**
-[ ] Make it pretty with tailwindcss
+-   [ ]  Make it pretty with tailwindcss
 
 **Error handling**
-[ ] Rely on rails logic for more robust error handing especially when it comes to missing required fields
+-   [ ]  Rely on rails logic for more robust error handing especially when it comes to missing required fields
 
 **Candidate name normalizations**
-[ ] Implement fuzzy matching/name normalization logic to account for typos and accents
+-   [ ]  Implement fuzzy matching/name normalization logic to account for typos and accents
 
 **Deploying**
-[ ] Solve failed build without credentials to deploy app on Render or Railway
+-   [ ]  Solve failed build without credentials to deploy app on Render or Railway
 
