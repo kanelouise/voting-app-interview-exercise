@@ -1,76 +1,76 @@
 # syntax = docker/dockerfile:1
 
-# Set Ruby version (match with .ruby-version and Gemfile)
+# Make sure RUBY_VERSION matches the Ruby version in .ruby-version and Gemfile
 ARG RUBY_VERSION=3.1.2
-FROM ruby:$RUBY_VERSION-slim as base
+FROM registry.docker.com/library/ruby:$RUBY_VERSION-slim as base
 
-# Set environment variables for production
+# Rails app lives here
+WORKDIR /rails
+
+# Set production environment
 ENV RAILS_ENV="production" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/usr/local/bundle" \
-    BUNDLE_WITHOUT="development:test"
+    BUNDLE_WITHOUT="development"
 
-WORKDIR /rails
 
-# ---------------------
-# Build stage
-# ---------------------
+# Throw-away build stage to reduce size of final image
 FROM base as build
 
-# Install system dependencies
+# Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
-    curl gnupg build-essential git libvips pkg-config && \
+    apt-get install --no-install-recommends -y curl gnupg build-essential git libvips pkg-config && \
     curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
     apt-get install -y nodejs && \
-    npm install -g yarn && \
-    rm -rf /var/lib/apt/lists/*
+    npm install -g yarn
 
-# Install Ruby gems
+# Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
-    find "${BUNDLE_PATH}/ruby" -type d -name ".git" -exec rm -rf {} + && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git || true && \
     bundle exec bootsnap precompile --gemfile
 
 # Install JS dependencies
 COPY package.json yarn.lock ./
 RUN yarn install
 
-# Copy the full app
+# Copy application code
 COPY . .
 
-# Precompile Ruby and JS assets
+# Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Set RAILS_MASTER_KEY for asset precompilation
+# Defining RAILS_MASTER_KEY as a build argument and environment variable
 ARG RAILS_MASTER_KEY
 ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
 
+# # Build JS manually
+# RUN yarn build
+
+# Precompiling assets for production with RAILS_MASTER_KEY
 RUN bundle exec rails assets:precompile
 
-# ---------------------
-# Final image
-# ---------------------
+# Final stage for app image
 FROM base
 
-# Install minimal runtime dependencies
+# Install packages needed for deployment
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y \
-    libsqlite3-0 libvips curl && \
+    apt-get install --no-install-recommends -y curl libsqlite3-0 libvips && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
-# Copy app from build stage
+# Copy built artifacts: gems, application
 COPY --from=build /usr/local/bundle /usr/local/bundle
 COPY --from=build /rails /rails
 
-# Set up app directories and non-root user
+# Run and own only the runtime files as a non-root user for security
 RUN useradd rails --create-home --shell /bin/bash && \
     mkdir -p db log storage tmp && \
     chown -R rails:rails db log storage tmp
 
-USER rails:rails
 
-# Entrypoint and default server command
+# Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
+
+# Start the server by default, this can be overwritten at runtime
 EXPOSE 3000
 CMD ["./bin/rails", "server"]
