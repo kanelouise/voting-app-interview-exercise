@@ -30,6 +30,10 @@ RUN bundle install && \
     rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git && \
     bundle exec bootsnap precompile --gemfile
 
+# Install JS dependencies
+COPY package.json yarn.lock ./
+RUN yarn install
+
 # Copy application code
 COPY . .
 
@@ -40,8 +44,8 @@ RUN bundle exec bootsnap precompile app/ lib/
 ARG RAILS_MASTER_KEY
 ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
 
-# Build JS manually
-RUN yarn build
+# # Build JS manually
+# RUN yarn build
 
 # Precompiling assets for production with RAILS_MASTER_KEY
 RUN bundle exec rails assets:precompile
