@@ -27,7 +27,7 @@ RUN apt-get update -qq && \
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
-    find "${BUNDLE_PATH}/ruby" -type d -name ".git" -exec rm -rf {} + && \
+    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git || true \
     bundle exec bootsnap precompile --gemfile
 
 # Install JS dependencies
@@ -66,6 +66,7 @@ COPY --from=build /rails /rails
 RUN useradd rails --create-home --shell /bin/bash && \
     mkdir -p db log storage tmp && \
     chown -R rails:rails db log storage tmp
+
 
 # Entrypoint prepares the database.
 ENTRYPOINT ["/rails/bin/docker-entrypoint"]
