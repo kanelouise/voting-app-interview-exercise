@@ -40,6 +40,9 @@ RUN bundle exec bootsnap precompile app/ lib/
 ARG RAILS_MASTER_KEY
 ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
 
+# Build JS manually
+RUN yarn build
+
 # Precompiling assets for production with RAILS_MASTER_KEY
 RUN bundle exec rails assets:precompile
 
