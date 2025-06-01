@@ -27,7 +27,8 @@ RUN apt-get update -qq && \
 # Install application gems
 COPY Gemfile Gemfile.lock ./
 RUN bundle install && \
-    rm -rf ~/.bundle/ "${BUNDLE_PATH}"/ruby/*/cache "${BUNDLE_PATH}"/ruby/*/bundler/gems/*/.git || true && \
+    find "${BUNDLE_PATH}/ruby" -type d -name ".git" -exec rm -rf {} + && \
+    rm -rf ~/.bundle "${BUNDLE_PATH}/ruby/"*/cache && \
     bundle exec bootsnap precompile --gemfile
 
 # Install JS dependencies
