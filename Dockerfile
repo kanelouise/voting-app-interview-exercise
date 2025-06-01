@@ -19,7 +19,8 @@ FROM base as build
 
 # Install packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential git libvips pkg-config
+    apt-get install --no-install-recommends -y build-essential git libvips pkg-config \
+    yarn
 
 # Install application gems
 COPY Gemfile Gemfile.lock ./
@@ -39,7 +40,6 @@ ENV RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
 
 # Precompiling assets for production with RAILS_MASTER_KEY
 RUN bundle exec rails assets:precompile
-
 
 # Final stage for app image
 FROM base
