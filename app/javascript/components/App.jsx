@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './Login';
 import Vote from './Vote';
 import ResultsDashboard from './ResultsDashboard';
+import NotFound from './NotFound';
 
 function App() {
   const [voterId, setVoterId] = useState(null);
@@ -35,8 +36,11 @@ function App() {
           }
         />
 
-        {/* Unprotected Results page: if not logged in, redirect to / */}
+        {/* Unprotected Results page */}
         <Route path="/results" element={<ResultsDashboard />} />
+
+        {/* Unprotected Not Found page */}
+        <Route path="/*" element={<NotFound/>} />
       </Routes>
     </Router>
   );
