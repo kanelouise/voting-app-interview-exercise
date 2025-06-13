@@ -18,18 +18,6 @@ function ResultsDashboard() {
   }, []);
 
   return (
-  //   <div>
-  //     <h2>Results Dashboard</h2>
-  //     {error && <p className="text-red-600">{error}</p>}
-  //     <ul>
-  //       {results.map(c => (
-  //         <li key={c.id} className="mb-2">
-  //           <span className="font-medium">{c.name}</span>: {c.votes} votes
-  //         </li>
-  //       ))}
-  //     </ul>
-  //   </div>
-  // );
     <div>
       <h2>Results Dashboard</h2>
       {error && <p style={{ color: 'red' }}>{error}</p>}
