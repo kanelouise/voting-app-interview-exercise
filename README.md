@@ -85,7 +85,7 @@ The goal was to showcase strong Rails and React integration, clean controller de
 * Following the MVC structure
 * `app/models` - Backbone for CRUD (`Candidate`, `Vote`, `Voter` )
 * `app/controllers/api/` – Namespaced Rails API controllers (`candidate`, `vote`, `voter`, `results`, `sessions`)
-* `app/javascript/components/` – React components (`Login`, `Vote`, `ResultsDashboard`)
+* `app/javascript/components/` – React components (`App`,`Login`, `NotFound`, `ResultsDashboard`,`Vote`)
 * `routes.rb` – API and frontend routing configuration
 
 ## Opportunities for further building
@@ -98,6 +98,7 @@ With more time, high-value tests would include:
 
 **Styling**
 -   [ ]  Make it pretty with tailwindcss
+-   [ ]  Display username after login
 
 **Error handling**
 -   [ ]  Rely on rails logic for more robust error handing especially when it comes to missing required fields
@@ -113,11 +114,11 @@ With more time, high-value tests would include:
 -   [ ]  Add index function to Candidates controller + create view of list of candidates, simliar to list of results (not requiring login)
 
 **Function**
-If we wanted to extend the functionality of this app so it would be available for multiple events (and where those events were managed by the voting app company), here's a very rough outline of how I would go about that task:
-    1. Update flow to direct user to /event page before /vote where they would choose from a dropdown of events, after which they will be directed to /vote.
-    2. Create event model and rake db.
-    3. Create Events controller with POST and GET endpoints.
-    4. Update routes.
+-   If we wanted to extend the functionality of this app so it would be available for multiple events (and where those events were managed by the voting app company), here's a very rough outline of how I would go about that task:
+-   1. Update flow to direct user to /event page before /vote where they would choose from a dropdown of events, after which they will be directed to /vote.
+-   2. Create event model and rake db.
+-   3. Create Events controller with POST and GET endpoints.
+-   4. Update routes.
 
 
 
