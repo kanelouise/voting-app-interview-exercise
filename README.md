@@ -4,6 +4,9 @@ This is a completed version of the Rails + React Voting App exercise. Users can 
 
 ---
 
+## Accessing deployed app
+Access the deployed app [here](https://voting-app-interview-exercise.onrender.com/)
+
 ## Installation
 
 Your development environment should have:
@@ -30,7 +33,7 @@ yarn install
 
 ---
 
-## Running the app
+## Running the app locally
 
 ```sh
 # Start Rails server
@@ -103,5 +106,19 @@ With more time, high-value tests would include:
 -   [ ]  Implement fuzzy matching/name normalization logic to account for typos and accents
 
 **Deploying**
--   [ ]  Solve failed build without credentials to deploy app on Render or Railway
+-   [X]  Solve failed build without credentials to deploy app on Render or Railway
+
+**Clean-up**
+-   [ ]  Remove voter creation from SessionsController (Sessions and Voters Controllers are redundant, currently)
+-   [ ]  Add index function to Candidates controller + create view of list of candidates, simliar to list of results (not requiring login)
+
+**Function**
+If we wanted to extend the functionality of this app so it would be available for multiple events (and where those events were managed by the voting app company), here's a very rough outline of how I would go about that task:
+    1. Update flow to direct user to /event page before /vote where they would choose from a dropdown of events, after which they will be directed to /vote.
+    2. Create event model and rake db.
+    3. Create Events controller with POST and GET endpoints.
+    4. Update routes.
+
+
+
 
